@@ -12,13 +12,19 @@ fun main() {
         .sum()
 
 
-    fun part2() {
-
-    }
+    fun part2(input: List<String>) = input
+        .asSequence()
+        .windowed(3, 3)
+        .map { grouping -> grouping[0].toSet().intersect(grouping[1].toSet()).intersect(grouping[2].toSet()) }
+        .map { it.first() }
+        .map(::itemValue)
+        .sum()
 
     val testInput = readInput("Day03_test")
     println(part1(testInput))
+    println(part2(testInput))
 
     val input = readInput("Day03")
     println(part1(input))
+    println(part2(input))
 }
