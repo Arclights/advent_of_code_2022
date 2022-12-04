@@ -1,27 +1,28 @@
 fun main() {
-    fun part1(input: List<String>): Int {
-        return input
-            .fold(mutableListOf<MutableList<Int>>(mutableListOf())) { list, line ->
-                if ("" == line) {
-                    list.add(mutableListOf())
-                } else {
-                    list.last().add(line.toInt())
-                }
-                list
+    fun getCalories(input: List<String>) = input
+        .fold(mutableListOf<MutableList<Int>>(mutableListOf())) { list, line ->
+            if ("" == line) {
+                list.add(mutableListOf())
+            } else {
+                list.last().add(line.toInt())
             }
-            .maxOf(MutableList<Int>::sum)
-    }
+            list
+        }
+        .map(MutableList<Int>::sum)
 
-    fun part2(input: List<String>): Int {
-        return input.size
-    }
+    fun part1(input: List<String>) = getCalories(input).max()
 
-    // test if implementation meets criteria from the description, like:
+    fun part2(input: List<String>): Int = getCalories(input)
+        .sorted()
+        .reversed()
+        .take(3)
+        .sum()
+
     val testInput = readInput("Day01_test")
-//    check(part1(testInput) == 1)
     println(part1(testInput))
+    println(part2(testInput))
 
     val input = readInput("Day01")
     println(part1(input))
-//    println(part2(input))
+    println(part2(input))
 }
