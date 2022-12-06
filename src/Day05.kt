@@ -8,9 +8,14 @@ fun main() {
         }
         .joinToString("") { it.last().toString() }
 
-    fun part2() {
-
-    }
+    fun part2(input: Input) = input
+        .instructions
+        .fold(input.stacks) { stacks, (move, from, to) ->
+            stacks[to - 1] = stacks[to - 1].plus(stacks[from - 1].takeLast(move))
+            stacks[from - 1] = stacks[from - 1].dropLast(move)
+            stacks
+        }
+        .joinToString("") { it.lastOrNull()?.toString()?:"" }
 
     fun parseInput(rawInput: List<String>): Input {
         fun parseStacks(rawStacks: List<String>): MutableList<String> {
@@ -38,11 +43,13 @@ fun main() {
         )
     }
 
-    val testInput = parseInput(readInput("Day05_test"))
-    println(part1(testInput))
+    val testInput = readInput("Day05_test")
+    println(part1(parseInput(testInput)))
+    println(part2(parseInput(testInput)))
 
-    val input = parseInput(readInput("Day05"))
-    println(part1(input))
+    val input = readInput("Day05")
+    println(part1(parseInput(input)))
+    println(part2(parseInput(input)))
 }
 
 data class Input(val stacks: MutableList<String>, val instructions: List<Triple<Int, Int, Int>>)
